@@ -30,3 +30,18 @@ base = (xmean.T) * h[:,0:i] * (numpy.diag(v[0:i] ** (-(1/2))))
             2、这里使用了距离的方法，用了三阶近邻的算法
             3、写个文档弄清楚什么是三阶近邻
 """
+#先去识别单个图像，在谋求对所有的图片进行识别
+lena = matplotlib.image.imread('C:\\Coder\\DataMing_PCA\\ORL\\s'+str(1)+'\\'+str(6)+'.jpg')
+lenb = numpy.reshape(a, (1, -1), order='F')
+lenb = lenb.astype(numpy.float64)#读取所有文件
+
+
+#下面对所有图像进行识别，并计算识别正确率。
+accu = 0
+for i in range(1:41):
+    for j in range(6:11):
+        #依然是读取图像
+        a = matplotlib.image.imread('C:\\Coder\\DataMing_PCA\\ORL\\s'+str(i)+'\\'+str(j)+'.jpg')
+        b = numpy.reshape(a, (1, -1), order='F')
+        b = b.astype(numpy.float64)
+        tcoor = b * base    #计算坐标系，1*71阶的矩阵
