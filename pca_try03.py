@@ -52,9 +52,13 @@ class2相同，则测试图像属于class1，而class2与
 同一类，可能是由测试图像的姿态和饰物引起的。
 """
 #先求每幅训练样本图像与这一幅图像的像素差值。
-mdist = allcolor - lentcoor #命令测试见sy.py
+#mdist = allcolor - lentcoor #命令测试见sy.py
 #求mdist的范数。(二阶范数数衡量距离)得到范数数组。
 #下面把求像素差值和求距离范数相结合起来处理。
+mdist = numpy.arange(200).reshape(200,1)
+for k in range(0,200):
+    mdist[k,0] = numpy.linalg.norm(lentcoor - allcolor[k,:])
+
 #对mdist的范数进行排序。
 #选取距离最近的作为三个，分别为class1、class2、class3
 #三阶近邻
