@@ -25,16 +25,24 @@ while((dsum_extract/dsum) < 0.9):
     dsum_extract = g[i,i]+dsum_extract
     i = i + 1
 base = (xmean.T) * h[:,0:i] * (numpy.diag(v[0:i] ** (-(1/2))))
+allcolor = allsamples * base    #所有训练样本投影到该空间中
 """
 测试集测试： 1、测试集投影到上面形成的特征空间中
             2、这里使用了距离的方法，用了三阶近邻的算法
             3、写个文档弄清楚什么是三阶近邻
 """
 #先去识别单个图像，在谋求对所有的图片进行识别
+#第一步：读取一幅图像，并转化为数据矩阵
 lena = matplotlib.image.imread('C:\\Coder\\DataMing_PCA\\ORL\\s'+str(1)+'\\'+str(6)+'.jpg')
 lenb = numpy.reshape(a, (1, -1), order='F')
-lenb = lenb.astype(numpy.float64)#读取所有文件
+lenb = lenb.astype(numpy.float64)
+#第二步：计算坐标
+lentcoor = lenb * base #得到的是一个1*71的矩阵
+#第三步：就是怎么判别的问题。三阶近邻
+"""
+三阶近邻：
 
+"""
 
 #下面对所有图像进行识别，并计算识别正确率。
 accu = 0
