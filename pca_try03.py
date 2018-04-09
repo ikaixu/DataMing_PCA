@@ -25,7 +25,7 @@ while((dsum_extract/dsum) < 0.9):
     dsum_extract = g[i,i]+dsum_extract
     i = i + 1
 base = (xmean.T) * h[:,0:i] * (numpy.diag(v[0:i] ** (-(1/2))))
-allcolor = allsamples * base    #所有训练样本投影到该空间中
+allcolor = allsamples * base    #所有训练样本投影到该空间中,(200, 71)的矩阵。
 """
 测试集测试： 1、测试集投影到上面形成的特征空间中
             2、这里使用了距离的方法，用了三阶近邻的算法
@@ -37,12 +37,25 @@ lena = matplotlib.image.imread('C:\\Coder\\DataMing_PCA\\ORL\\s'+str(1)+'\\'+str
 lenb = numpy.reshape(a, (1, -1), order='F')
 lenb = lenb.astype(numpy.float64)
 #第二步：计算坐标
-lentcoor = lenb * base #得到的是一个1*71的矩阵
+lentcoor = lenb * base #得到的是一个(1,71)的矩阵
 #第三步：就是怎么判别的问题。三阶近邻
 """
-三阶近邻：
-
+三阶近邻：三阶近邻法是计算像素的差值的绝对值。
+三阶近邻法计算出与测试图像距离最小的三幅图像，
+记这三幅图像所属的类分别计为class1，class2，
+class3，若class1和class2且class2和class3不
+属于同一类，则测试图像属于class1；若class1和
+class2相同，则测试图像属于class1，而class2与
+测试图像也是相似的；若class2和class3属于同一类，
+则测试图像属于class2，而class3与测试图像也是
+相似的，但class1虽然与测试图像距离最近却不属于
+同一类，可能是由测试图像的姿态和饰物引起的。
 """
+#先求每幅训练样本图像与这一幅图像的像素差值。
+mdist = allcolor - lentcoor #命令测试见sy.py
+#求mdist的范数。
+
+#三阶近邻
 
 #下面对所有图像进行识别，并计算识别正确率。
 accu = 0
@@ -52,4 +65,4 @@ for i in range(1:41):
         a = matplotlib.image.imread('C:\\Coder\\DataMing_PCA\\ORL\\s'+str(i)+'\\'+str(j)+'.jpg')
         b = numpy.reshape(a, (1, -1), order='F')
         b = b.astype(numpy.float64)
-        tcoor = b * base    #计算坐标系，1*71阶的矩阵
+        tcoor = b * base    #计算坐标系，(1, 71)的矩阵
