@@ -55,15 +55,33 @@ class2相同，则测试图像属于class1，而class2与
 #mdist = allcolor - lentcoor #命令测试见sy.py
 #求mdist的范数。(二阶范数数衡量距离)得到范数数组。
 #下面把求像素差值和求距离范数相结合起来处理。
-mdist = numpy.arange(200).reshape(200,1)
+mdist = numpy.arange(200.00).reshape(1,200)
 for k in range(0,200):
-    mdist[k,0] = numpy.linalg.norm(lentcoor - allcolor[k,:])
-
-#对mdist的范数进行排序。
-#选取距离最近的作为三个，分别为class1、class2、class3
+    mdist[0,k] = numpy.linalg.norm(lentcoor - allcolor[k,:])
+#得到的mdist是一个(1,200)的数组。
+#对mdist的范数进行排序，从大到小排序。
+mdist.sort()#这个内置排序操作会改变原来数组
+#再次输入mdist时，这个数组是按照升序进行排序的。
 #三阶近邻
-
+#选取距离最近的作为三个，分别为class1、class2、class3(class在python中是关键字，改名字)
+#三阶近邻
+lei1 = int((mdist[0,0] - 1)/5) + 1
+lei2 = int((mdist[0,1] - 1)/5) + 1
+lei3 = int((mdist[0,2] - 1)/5) + 1
+lei = 0
+if (lei1!=lei2 and lei2!=lei3):
+    lei = lei1
+elif (lei1==lei2 and lei2!=lei3):
+    lei = lei1
+elif (lei1!=lei2 and lei2==lei3):
+    lei = lei2
+else:
+    lei = lei1
+accu = 0
+if (lei == 1):
+    accu = accu + 1
 #下面对所有图像进行识别，并计算识别正确率。
+"""
 accu = 0
 for i in range(1:41):
     for j in range(6:11):
@@ -72,3 +90,4 @@ for i in range(1:41):
         b = numpy.reshape(a, (1, -1), order='F')
         b = b.astype(numpy.float64)
         tcoor = b * base    #计算坐标系，(1, 71)的矩阵
+"""
