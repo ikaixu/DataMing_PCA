@@ -21,3 +21,10 @@ np.linalg.eigvalsh(A)#按升序返回了特征值
 ##下面去找降序的参数设置
 ##参数详解，第一个也是必须的矩阵、第二个UPLO‘L’or‘U’设置升序降序默认‘L’升序
 np.linalg.eigh(A, UPLO='U')#看来第二个参数不是我们所想的。
+"""
+测试numpy矩阵运算，用（m，n）矩阵减（1，n）矩阵
+"""
+"""
+numpy的linalg模块的norm函数，是什么意思？
+"""
+np.linalg.norm(A, 1)
