@@ -24,7 +24,7 @@ i = 0
 while((dsum_extract/dsum) < 0.9):
     dsum_extract = g[i,i]+dsum_extract
     i = i + 1
-base = (xmean.T) * h[:,0:i] * (numpy.diag(v[0:i] ** (-(1/2))))
+base = (xmean.T) * h[:,0:(i-1)] * (numpy.diag(v[0:(i-1)] ** (-(1/2))))
 allcolor = allsamples * base    #所有训练样本投影到该空间中,(200, 71)的矩阵。
 """
 测试集测试： 1、测试集投影到上面形成的特征空间中
@@ -34,7 +34,7 @@ allcolor = allsamples * base    #所有训练样本投影到该空间中,(200, 7
 #先去识别单个图像，在谋求对所有的图片进行识别
 #第一步：读取一幅图像，并转化为数据矩阵
 lena = matplotlib.image.imread('C:\\Coder\\DataMing_PCA\\ORL\\s'+str(1)+'\\'+str(6)+'.jpg')
-lenb = numpy.reshape(a, (1, -1), order='F')
+lenb = numpy.reshape(lena, (1, -1), order='F')#矢量化
 lenb = lenb.astype(numpy.float64)
 #第二步：计算坐标
 lentcoor = lenb * base #得到的是一个(1,71)的矩阵
@@ -78,7 +78,8 @@ elif (lei1!=lei2 and lei2==lei3):
 else:
     lei = lei1
 accu = 0
-if (lei == 1):
+#下面代码是问题？怎么理解，上面类别的构造似乎不正确
+if (lei == i):
     accu = accu + 1
 #下面对所有图像进行识别，并计算识别正确率。
 """
